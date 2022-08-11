@@ -5,10 +5,10 @@ import Footer from '../../components/footer';
 
 import { Row,Col } from 'antd';
 
-const Home = () => {
+const Notificaciones = () => {
 return(
     <>
-    <Menu home/>
+    <Menu notificaciones/>
     <Row justify="space-around"align="middle">
         <Col span={24}>
             <div/>
@@ -20,4 +20,4 @@ return(
 );
 }
 
-export default Home;
+export default Notificaciones;

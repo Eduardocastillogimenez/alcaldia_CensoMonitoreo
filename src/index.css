@@ -1,5 +1,6 @@
 .a{
   background: rgb(255, 255, 255);
+  background-color: #0017c7;
     height: max-content;
     width: auto;
     position: sticky;
@@ -19,6 +20,7 @@
     padding: 2%;
     padding-left: 2%;
     padding-right: 2%;
+    padding-bottom: 0;
     display:inline-block;
     font-size: 10%;
     font-family: Arial, Helvetica, sans-serif;
@@ -27,6 +29,7 @@
     justify-content: flex-start;
     align-content: center;
     text-align: end;
+    text-decoration: none;
     border-radius:100px;
     border: 3px solid black;
     animation-name: titulo;
@@ -49,6 +52,10 @@
     transform: rotateX(360deg);
     transform: translateZ();
     transform:scale(1.35);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .body{
   overflow-x: hidden;

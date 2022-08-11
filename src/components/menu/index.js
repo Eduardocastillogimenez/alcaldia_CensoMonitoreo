@@ -1,6 +1,8 @@
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
 import React, { useState } from 'react';
+import { AppstoreOutlined, MailOutlined, BellOutlined, ExceptionOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Menu, Row, Col } from 'antd';
+import {Container,Nav} from './styles'
+
 const items = [
   {
     label: 'Navigation One',
@@ -8,65 +10,38 @@ const items = [
     icon: <MailOutlined />,
   },
   {
-    label: 'Navigation Two',
+    label:  <a href="/app" >
+              Navigation Four - Link
+            </a>,
     key: 'app',
-    icon: <AppstoreOutlined />,
-    disabled: true,
-  },
-  {
-    label: 'Navigation Three - Submenu',
-    key: 'SubMenu',
-    icon: <SettingOutlined />,
-    children: [
-      {
-        type: 'group',
-        label: 'Item 1',
-        children: [
-          {
-            label: 'Option 1',
-            key: 'setting:1',
-          },
-          {
-            label: 'Option 2',
-            key: 'setting:2',
-          },
-        ],
-      },
-      {
-        type: 'group',
-        label: 'Item 2',
-        children: [
-          {
-            label: 'Option 3',
-            key: 'setting:3',
-          },
-          {
-            label: 'Option 4',
-            key: 'setting:4',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: (
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-        Navigation Four - Link
-      </a>
-    ),
-    key: 'alipay',
+    icon: <AppstoreOutlined />
   },
 ];
 
-const App = () => {
+const App = (props) => {
   const [current, setCurrent] = useState('mail');
 
   const onClick = (e) => {
-    console.log('click ', e);
     setCurrent(e.key);
   };
-
-  return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+//<Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items}/>
+  return (
+    <Container>
+      <Row justify="space-around" align="middle">
+        <Col span={6}>
+          <h3>Alcaldia San Cristobal</h3>
+        </Col>
+        <Col span={15}>
+          <Nav>
+            <a href="/home" style={props?props.home?{color:"#0017c7"}:{}:{}}><BellOutlined />{" "}Noticias </a>
+            <a href="/notificaciones" style={props?props.notificaciones?{color:"#0017c7"}:{}:{}}><ExceptionOutlined />{" "}Notificaciones</a>
+            <a href="/perfil" style={props?props.perfil?{color:"#0017c7"}:{}:{}}><UserOutlined />{" "}Perfil</a>
+            <a id='cerrarSesionMenu' ><LogoutOutlined />{" "}Cerrar sesion</a>
+          </Nav>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
 export default App;
