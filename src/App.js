@@ -9,6 +9,7 @@ import Home from 'views/home';
 import Notificaciones from 'views/notificaciones';
 import Perfil from 'views/perfil';
 import Login from 'views/login';
+import Dashboard from 'views/dashboard';
 import Error from 'views/error404';
 import Cargando from 'components/cargando';
 
@@ -21,7 +22,10 @@ return(
         <Route exact path="/">
           <Login/>
         </Route>
-        <Route exact path="/home">
+        <Route path="/dashboard">
+          <Dashboard/>
+        </Route>
+        <Route path="/home">
           <Home/>
         </Route>
         <Route exact path="/notificaciones">

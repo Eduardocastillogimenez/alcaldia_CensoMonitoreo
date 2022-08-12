@@ -25,6 +25,16 @@ export const Container = styled.div`
             background: none;
         }   
     }
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        background-color: #EFEFEF;
+        text-align: start;
+        &:hover{
+            background: white;
+        }   
+        input{
+            background: none;
+        }   
+    }
 `;
 
 export const Title = styled.div`

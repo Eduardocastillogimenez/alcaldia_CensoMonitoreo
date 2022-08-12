@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 
-import { Button, Row, Col, Form, Input, Divider, Checkbox } from 'antd';
+import { Button, Row, Col, Form, Input, Divider, Checkbox, Select } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Container, Title, ContainerChange, Containerform } from './styles'
+import DatosSaludActual from './datosSaludActual';
 
 const Registrarse = ({setRegistrarse}) => {
+    const { Option } = Select;
     const onFinish = (values) => {
         console.log('Success:', values);
+        setRegistrarse(false);
     };
 
     const styleRow = {background: "rgb(28,7,100)",
@@ -88,13 +91,19 @@ const Registrarse = ({setRegistrarse}) => {
                                 </Form.Item>
                           
                                 <Divider />
-                            {/*  Grupo 3 (Municipio,localidad,direccion) */}
-                                <Form.Item
-                                    label={<span><MailOutlined />{" "}Municipio</span>}
-                                    name="municipio"
-                                    rules={[{ required: true, message: 'Es necesario el Municipio!' }]}
+                            {/*  Grupo 3 (Municipio,localidad,direccion) */}                               
+                                <Form.Item name="municipio" 
+                                    label={<span><MailOutlined />{" "}Municipio</span>} 
+                                    rules={[{ required: true, message: 'Es necesario el Municipio!'  }]}
                                 >
-                                    <Input placeholder="Municipio"/>
+                                    <Select
+                                        placeholder="Select a option the Municipio"
+                                        allowClear
+                                    >
+                                        <Option value="male">male</Option>
+                                        <Option value="female">female</Option>
+                                        <Option value="other">other</Option>
+                                    </Select>
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Localidad</span>}
@@ -142,9 +151,11 @@ const Registrarse = ({setRegistrarse}) => {
     );
 }
 
-const Logear = ({setRegistrarse}) => {
+const Logear = (props) => {
     const onFinish = (values) => {
+        console.log('Success:', JSON.stringify(values));
         console.log('Success:', values);
+        props.setRegisDatosSalud(true);
     };
 
     return(
@@ -191,7 +202,7 @@ const Logear = ({setRegistrarse}) => {
                         <Title><h3>Iniciar sesion</h3></Title>
                         <p>¿No tienes una cuenta aún?
                             Ingresa tus datos personales para empezar ahora</p>
-                        <Button type="primary" onClick={()=>{setRegistrarse(true)}}>
+                        <Button type="primary" onClick={()=>{props.setRegistrarse(true)}}>
                             Registrate
                         </Button>
                     </div>
@@ -203,10 +214,15 @@ const Logear = ({setRegistrarse}) => {
 
 const Login = () => {
     const [registrarse, setRegistrarse] = useState(false);
+    const [regisDatosSalud, setRegisDatosSalud] = useState(false);
 
+    // si regisDatosSalud muestra el form de datos de la salud de la persona
+    // si registrarse muestra en form de registro y si no el de inicio
 return(
     <Container>
-        {registrarse?<Registrarse setRegistrarse={setRegistrarse}/>:<Logear setRegistrarse={setRegistrarse}/>}
+        {regisDatosSalud?<DatosSaludActual/>
+        :registrarse?<Registrarse setRegistrarse={setRegistrarse}/>
+            :<Logear setRegistrarse={setRegistrarse} setRegisDatosSalud={setRegisDatosSalud}/>}
     </Container>
 );
 }
