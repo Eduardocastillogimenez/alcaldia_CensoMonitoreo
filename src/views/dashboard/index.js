@@ -21,7 +21,7 @@ const Dashboard = ({history}) => {
 
 return(
     <>
-        <MyMenu setCargar={setCargar}/>
+        <MyMenu setCargar={setCargar} cargar={cargar}/>
         <Container>
             <div className='miniContainerDashbo'>
                 {cargar===3?<CrearNotificacion/>:cargar===2?<Noticias/>:cargar===1?<Usuarios/>:<Contenido/>}

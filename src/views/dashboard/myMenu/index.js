@@ -24,17 +24,17 @@ function getItem(label, key, icon, children, type) {
   }
 
 
-const MyMenu = ({setCargar}) => {
+const MyMenu = (props) => {
     const [collapsed, setCollapsed] = useState(false);
 
     const items = [
-        getItem(<a onClick={()=>setCargar(0)}>Dashboard </a>, '0', <PieChartOutlined />),
-        getItem(<a onClick={()=>setCargar(1)}>Usuarios </a>, '1', <AppstoreOutlined />, [
+        getItem(<a onClick={()=>props.setCargar(0)}>Dashboard </a>, '0', <PieChartOutlined />),
+        getItem(<a onClick={()=>props.setCargar(1)}>Usuarios </a>, '1', <AppstoreOutlined />, [
             getItem('Option 9', '9'),
             getItem('Option 10', '10'),
         ]),
-        getItem(<a onClick={()=>setCargar(2)}>Noticias </a>, '2', <ContainerOutlined />),
-        getItem(<a onClick={()=>setCargar(3)}>CrearNotificacion </a>, '3', <ContainerOutlined />),      
+        getItem(<a onClick={()=>props.setCargar(2)}>Noticias </a>, '2', <ContainerOutlined />),
+        getItem(<a onClick={()=>props.setCargar(3)}>CrearNotificacion </a>, '3', <ContainerOutlined />),      
     ];
 
     const toggleCollapsed = () => {
@@ -59,7 +59,7 @@ return(
         </div>
         </Affix>
         <Container>
-            <h2>Dashboard</h2>
+            <h2> {props.cargar===3?"CrearNotificacion":props.cargar===2?"Noticias":props.cargar===1?"Usuarios":"Dashboard"}</h2>
         </Container>
     </>
 );
