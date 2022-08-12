@@ -22,7 +22,7 @@ return(
         <Route exact path="/">
           <Login/>
         </Route>
-        <Route path="/dashboard">
+        <Route exact path="/dashboard">
           <Dashboard/>
         </Route>
         <Route path="/home">
