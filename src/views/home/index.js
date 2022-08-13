@@ -8,11 +8,7 @@ import Noticia from 'views/noticia';
 import { Row, Col, Pagination, Card, Button } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
-import {
-    Switch,
-    Route,
-    useRouteMatch,
-  } from "react-router-dom";
+import { Switch, Route, useRouteMatch, } from "react-router-dom";
 
 const Noticias = () => {
     const [loading, setLoading] = useState(false);

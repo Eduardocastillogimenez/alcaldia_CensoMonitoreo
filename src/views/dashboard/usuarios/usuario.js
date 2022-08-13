@@ -1,11 +1,10 @@
 import React from 'react';
-import { Container, LineaVertical, SpanDatos } from './styles';
-
-import Menu from '../../components/menu';
-import Footer from '../../components/footer';
+import { Container, LineaVertical, SpanDatos, Popovercontent } from './styles';
 
 import { Row, Col, Popover, Button } from 'antd';
 import { UserOutlined, MailOutlined, SolutionOutlined, RocketOutlined, PhoneOutlined, EnvironmentOutlined } from '@ant-design/icons';
+
+import { useParams } from "react-router-dom";
 
 const dataAPI = [
     {
@@ -55,10 +54,17 @@ const dataAPI = [
     },
 ];
 
-const Perfil = () => {
-return(
-    <>
-    <Menu perfil/>
+const Usuarios = () => {
+    const { id } = useParams();
+
+    const content = (
+        <Popovercontent>
+          <Button type="primary" onClick={()=>alert}>Hacer Admin a este usuario</Button>
+          <Button type="primary" onClick={()=>alert} className='bagraamar'>Crear Notificacion</Button>
+        </Popovercontent>
+    );
+
+    return(
         <Container>
             <Row justify="space-around" align="middle">
                 <Col span={24}>
@@ -100,11 +106,14 @@ return(
                         </SpanDatos>
                     </div>
                 </Col>
+                <Col span={24} style={{textAlign:"end"}}>
+                    <Popover content={content} title="Opciones especiales" placement="topRight">
+                        <Button type="primary">Opciones especiales</Button>
+                    </Popover>
+                </Col>
             </Row>  
         </Container>
-    <Footer/>
-    </>
-);
+    );
 }
 
-export default Perfil;
+export default Usuarios;

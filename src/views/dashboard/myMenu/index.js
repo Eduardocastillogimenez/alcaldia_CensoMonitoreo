@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container } from './styles';
+import { ContainerInfo, Container } from './styles';
 
 import {
     AppstoreOutlined,
@@ -13,28 +13,25 @@ import {
 import { Button, Menu, Affix } from 'antd';
  
 
-function getItem(label, key, icon, children, type) {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
-  }
+    function getItem(label, key, icon, children, type) {
+        return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+        };
+    }
 
 
 const MyMenu = (props) => {
     const [collapsed, setCollapsed] = useState(false);
 
     const items = [
-        getItem(<a onClick={()=>props.setCargar(0)}>Dashboard </a>, '0', <PieChartOutlined />),
-        getItem(<a onClick={()=>props.setCargar(1)}>Usuarios </a>, '1', <AppstoreOutlined />, [
-            getItem('Option 9', '9'),
-            getItem('Option 10', '10'),
-        ]),
-        getItem(<a onClick={()=>props.setCargar(2)}>Noticias </a>, '2', <ContainerOutlined />),
-        getItem(<a onClick={()=>props.setCargar(3)}>CrearNotificacion </a>, '3', <ContainerOutlined />),      
+        getItem(<a href={`${props.path}/`}>Dashboard </a>, '0', <PieChartOutlined />),
+        getItem(<a href={`${props.path}/usuarios`}>Usuarios </a>, '1', <AppstoreOutlined />),
+        getItem(<a href={`${props.path}/noticias`}>Noticias </a>, '2', <ContainerOutlined />),
+        getItem(<a href={`${props.path}/crearNotificacion`}>CrearNotificacion </a>, '3', <ContainerOutlined />),      
     ];
 
     const toggleCollapsed = () => {
@@ -42,15 +39,15 @@ const MyMenu = (props) => {
     };
 
 return(
-    <>
+    <Container>
         
-        <Affix offsetTop={0} style={{ position: "absolute", marginLeft: "20px" }}>
+        <Affix offsetTop={0} style={{ position: "absolute", marginLeft: "20px", marginTop: "20px", zIndex: "1000" }}>
         <div style={{ width: 200 }}>
             <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 16 }}>
                 {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             </Button>
             <Menu
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={[props.crearNotificacion?"3":props.noticias?"2":props.usuarios?"1":"0"]}
                 mode="inline"
                 theme="dark"
                 inlineCollapsed={collapsed}
@@ -58,10 +55,10 @@ return(
             />
         </div>
         </Affix>
-        <Container>
-            <h2> {props.cargar===3?"CrearNotificacion":props.cargar===2?"Noticias":props.cargar===1?"Usuarios":"Dashboard"}</h2>
-        </Container>
-    </>
+        <ContainerInfo>
+            <h2> {props.crearNotificacion?"CrearNotificacion":props.noticias?"Noticias":props.usuarios?"Usuarios":"Dashboard"}</h2>
+        </ContainerInfo>
+    </Container>
 );
 }
 
