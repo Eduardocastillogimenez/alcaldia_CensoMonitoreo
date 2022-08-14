@@ -1,8 +1,8 @@
 import React, { useState,useContext, useEffect } from 'react';
-import { InfoTablaNombreLink, ContainerNoticias } from './styles';
+import { InfoTablaNombreLink, ContainerNoticias, Container } from './styles';
 import Noticia from './noticia';
 
-import { Table, Button, Modal, Form, Input } from 'antd';
+import { Table, Button, Modal, Form, Input, Card } from 'antd';
 import { UserOutlined, EditOutlined, SolutionOutlined} from '@ant-design/icons';
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 
@@ -49,6 +49,7 @@ const infoTabla = (dataAPI, path) => {
             id: element.id,
             title: infoTablaNombreLink(element.title, element.id, path),
             abstract: element.abstract,
+            body: element.body,
         }
     ));
     
@@ -104,7 +105,6 @@ const Noticias = () => {
 
     const handleOk = (value) => {
         if(value){
-            alert(value);
             requestCrearNoticias(usuario.token,value);
         };
         setIsModalVisible(false);
@@ -156,7 +156,13 @@ const Noticias = () => {
                     <Table columns={infoTablaVar.columns} dataSource={infoTablaVar.data} onChange={onChange} />
                 </Route>
                 <Route path={`${path}/:id`}>
-                    <Noticia dataAPI={dataAPI.filter((ele)=>{return `${path}/${ele.id}`=== window.location.pathname})[0]}/>
+                    {console.log(infoTablaVar.data)}
+                    <Container>
+                        <h1>{infoTablaVar.data?infoTablaVar.data.filter((ele)=>{return `${path}/${ele.id}`=== window.location.pathname})[0]?.title:""}</h1>
+                        <Card style={{margin: "15px"}}>
+                            <p>{infoTablaVar.data?infoTablaVar.data.filter((ele)=>{return `${path}/${ele.id}`=== window.location.pathname})[0]?.body:""}</p>
+                        </Card>
+                    </Container>
                 </Route>
             </Switch>
         </ContainerNoticias>

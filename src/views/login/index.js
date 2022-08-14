@@ -234,7 +234,7 @@ const Login = (props) => {
     const [registrarse, setRegistrarse] = useState(false);
     const [regisDatosSalud, setRegisDatosSalud] = useState(false);
 
-    const { usuario } = useContext(Auth);
+    const  usuario  = JSON.parse(localStorage.getItem('usuario'));
 
     useEffect(() => {
         if (usuario) {

@@ -8,7 +8,7 @@ import {
     MailOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    PieChartOutlined,
+    PieChartOutlined,LogoutOutlined,
 } from '@ant-design/icons';
 import { Button, Menu, Affix } from 'antd';
  
@@ -32,6 +32,7 @@ const MyMenu = (props) => {
         getItem(<a href={`${props.path}/usuarios`}>Usuarios </a>, '1', <AppstoreOutlined />),
         getItem(<a href={`${props.path}/noticias`}>Noticias </a>, '2', <ContainerOutlined />),
         getItem(<a href={`${props.path}/crearNotificacion`}>CrearNotificacion </a>, '3', <ContainerOutlined />),      
+        getItem(<a href={`/`} onClick={()=>localStorage.removeItem('usuario')}>Cerrar sesion </a>, '4', <LogoutOutlined  />),
     ];
 
     const toggleCollapsed = () => {

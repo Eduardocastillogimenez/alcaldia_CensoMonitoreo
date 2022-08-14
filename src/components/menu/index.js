@@ -62,12 +62,19 @@ const Menuu = (props) => {
   },);
 
   const { usuario } = useContext(Auth);
+  const  usuarioo  = JSON.parse(localStorage.getItem('usuario'));
 
   useEffect(() => {
     if (usuario ) {       
         requestNotificaciones(setNotificacion,usuario.token,usuario.data.id)
     }
   }, [usuario]);
+
+  useEffect(() => {
+    if (usuarioo ) {       
+        requestNotificaciones(setNotificacion,usuarioo.token,usuarioo.data.id)
+    }
+  }, [!notificacion]);
 
 
   const onClickCardModal = (element) => {
@@ -136,7 +143,7 @@ const Menuu = (props) => {
               </a>
             </Badge>
   
-            <a id='cerrarSesionMenu' onClick={()=>props.history.push('/')} ><LogoutOutlined />{" "}Cerrar sesion</a>
+            <a id='cerrarSesionMenu' onClick={()=>{localStorage.clear();props.history.push('/');}} ><LogoutOutlined />{" "}Cerrar sesion</a>
           </Nav>
         </Col>
       </Row>
