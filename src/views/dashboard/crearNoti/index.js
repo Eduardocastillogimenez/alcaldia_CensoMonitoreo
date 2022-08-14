@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from './styles';
 
-import { Button, Row, Col, Form, Input, Divider, Checkbox, Select } from 'antd';
+import { Button, Row, Col, Form, Input, Divider, Checkbox, Select, message, Space } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
 
@@ -10,13 +10,13 @@ import { requestnotificacioness  } from 'api';
 const CrearNotificacion = () => {
     const { TextArea } = Input;
 
-    const [dataAP, setDataAPI] = useState();
     const  usuario  = JSON.parse(localStorage.getItem('usuario'));
 
     const onFinish = (values) => {
         console.log('Success:', values); 
         if(usuario){
-            requestnotificacioness(setDataAPI,usuario.token,values);
+            requestnotificacioness(usuario.token,values);
+            message.success('This is a success');
         }
         
     };

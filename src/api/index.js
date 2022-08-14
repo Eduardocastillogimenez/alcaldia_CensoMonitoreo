@@ -156,7 +156,7 @@ export const requestNotificaciones = (setData,token,id) => {
 export const requestNotificacionesVista = (token,id) => {
     
     const options = {
-        method: 'GET',       
+        method: 'POST',       
         headers: { 
             'Content-Type': 'application/json', 
             "Accept": "application/json",
@@ -205,7 +205,7 @@ export const requestUsuariosEstadisticas = (setData,token) => {
         .then( dataa => setData(dataa.data));
 }
 
-export const requestnotificacioness = (setData,token,data) => {
+export const requestnotificacioness = (token,data) => {
     
     const options = {
         method: 'POST',       
@@ -219,6 +219,5 @@ export const requestnotificacioness = (setData,token,data) => {
     };
     
     fetch(`https://api-salud-san-cristobal.herokuapp.com/api/notification`, options)
-        .then(response => response.json())
-        .then( dataa => setData(dataa.data));
+        .then(response => response.json());
 }
