@@ -135,8 +135,8 @@ const Menuu = (props) => {
                 <ExceptionOutlined />{" "}Notificaciones
               </a>
             </Badge>
-            <a href="/perfil" style={props?props.perfil?{color:"#0017c7"}:{}:{}}><UserOutlined />{" "}Perfil</a>
-            <a id='cerrarSesionMenu' ><LogoutOutlined />{" "}Cerrar sesion</a>
+  
+            <a id='cerrarSesionMenu' onClick={()=>props.history.push('/')} ><LogoutOutlined />{" "}Cerrar sesion</a>
           </Nav>
         </Col>
       </Row>

@@ -33,9 +33,6 @@ return(
         <Route exact path="/notificaciones">
           <Notificaciones/>
         </Route>
-        <Route exact path="/perfil">
-          <Perfil/>
-        </Route>
         <Route path="*">
             <Error />
         </Route>
