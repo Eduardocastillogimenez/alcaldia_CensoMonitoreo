@@ -95,6 +95,8 @@ const Menuu = (props) => {
       setIsModalVisible(false);
   };
 
+  (console.log(notificacion))
+
 //<Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items}/>
   return (
     <Container>
@@ -117,8 +119,8 @@ const Menuu = (props) => {
           >
             {notificacion.map((element) => (
               <div key={element.id}>
-                <Card title={element.title} style={{margin: "15px", backgroundColor:element.sing===0?"none":"#04040428"}} 
-                    hoverable={element.sing===0?true:false} onClick={()=>onClickCardModal(element)}
+                <Card title={element.title} style={{margin: "15px", backgroundColor:!element.seen?"none":"#04040428"}} 
+                    hoverable={!element.seen?true:false} onClick={()=>onClickCardModal(element)}
                 >
                   <p>{element.body}</p>
                 </Card>
