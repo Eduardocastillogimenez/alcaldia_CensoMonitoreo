@@ -72,7 +72,7 @@ return(
                                         placeholder="Select a option and change input text above"
                                         allowClear
                                     >
-                                        <Option value="covid-19" >Covid-19</Option>
+                                        <Option value="covid19" >Covid-19</Option>
                                         <Option value="variante" >Covid con variante</Option>
                                         <Option value="viruela" >Viruela del mono</Option>
                                     </Select>
