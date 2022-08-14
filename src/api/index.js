@@ -169,6 +169,22 @@ export const requestNotificacionesVista = (token,id) => {
         .then(response => response.json())
 }
 
+export const requestNoticas = (token) => {
+    
+    const options = {
+        method: 'GET',       
+        headers: { 
+            'Content-Type': 'application/json', 
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        
+    };
+    
+    fetch(`https://api-salud-san-cristobal.herokuapp.com/api/news`, options)
+        .then(response => response.json())
+}
+
 export const requestUsuarios = (setData,token) => {
     console.log("wwwwwww24244as4")
     const options = {

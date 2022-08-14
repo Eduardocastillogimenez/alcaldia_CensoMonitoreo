@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import { InfoTablaNombreLink, ContainerNoticias } from './styles';
 import Noticia from './noticia';
 
 import { Table, Button, Modal, Form, Input } from 'antd';
 import { UserOutlined, EditOutlined, SolutionOutlined} from '@ant-design/icons';
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
+
+import { requestNoticias  } from 'api';
 
 const dataAPI = [
     {
@@ -45,16 +47,16 @@ const infoTabla = (dataAPI, path) => {
         {
             key: i,
             id: element.id,
-            titulo: infoTablaNombreLink(element.titulo, element.id, path),
-            body: element.body,
+            title: infoTablaNombreLink(element.title, element.id, path),
+            abstract: element.abstract,
         }
     ));
     
     const filters = {
         titulo: dataAPI.map((element) => (
                 {
-                    text: element.titulo,
-                    value: element.titulo,
+                    text: element.title,
+                    value: element.title,
                 }
         ))
     };
@@ -63,16 +65,11 @@ const infoTabla = (dataAPI, path) => {
     const columns = [
         {
             title: <span><UserOutlined/>{" "}Titulo</span>,
-            dataIndex: 'titulo',
-            filters: filters.titulo,
-            // specify the condition of filtering result
-            // here is that finding the name started with `value`
-            onFilter: (value, record) => record.titulo.indexOf(value) === 0,
-            filterSearch: true,
+            dataIndex: 'title',
         },
         {
             title: <span><SolutionOutlined />{" "}Body</span>,
-            dataIndex: 'body',
+            dataIndex: 'abstract',
         },
     ];
 
@@ -80,10 +77,22 @@ const infoTabla = (dataAPI, path) => {
 };
 
 const Noticias = () => {
+
     const { TextArea } = Input;
     const { path } = useRouteMatch();
+    const [Notificacion, setNotificacion] = useState(false);
 
-    const infoTablaVar = infoTabla(dataAPI[0]?dataAPI:[], path);
+    const  usuario  = JSON.parse(localStorage.getItem('usuario'));
+
+    useEffect(() => {
+      if (usuario ) {       
+        requestNoticias(setNotificacion,usuario.token,usuario.data.id)
+      }
+    }, [usuario]);
+
+    console.log(Notificacion)
+
+    const infoTablaVar = infoTabla(Notificacion[0]?Notificacion:[], path);
 
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
