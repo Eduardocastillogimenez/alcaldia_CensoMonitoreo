@@ -75,7 +75,7 @@ return(
 
 const Home = ({history}) => {
     const { path } = useRouteMatch();
-    const { usuario } = useContext(Auth);
+    const  usuario  = JSON.parse(localStorage.getItem('usuario'));
 
 return(
     <>

@@ -10,7 +10,7 @@ import { withRouter } from "react-router";
 import { requestNoticia } from 'api';
 
 const Noticia = (props) => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [usuario, setUsuario] = useState("");
     const [noticia, setNoticia] = useState({ title: "",body:"",id:""});
     const { id } = useParams();
@@ -18,7 +18,6 @@ const Noticia = (props) => {
     useEffect(() => {
         if(!props.usuario && noticia.title === ""){
             setUsuario(JSON.parse(localStorage.getItem('usuario')));
-            setLoading(false);
         }
         if (props.usuario && noticia.title === "") {
             if (props.usuario.message === "Error. Usuario y/o contraseña equivocados") {

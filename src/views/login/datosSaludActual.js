@@ -12,7 +12,7 @@ const DatosSaludActual = ({history}) => {
     const [sintomas, setSintomas] = useState([]);
     const [sintomaAdicional, setSintomaAdicional] = useState("");
     const { Option } = Select;
-    const { usuario } = useContext(Auth);
+    const  usuario  = JSON.parse(localStorage.getItem('usuario'));
 
     useEffect(() => {
         if(!usuario){
