@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import { Button, Row, Col, Form, Input, Divider, Checkbox, Select } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Container, Title, ContainerChange, Containerform } from './styles'
 import DatosSaludActual from './datosSaludActual';
+import { requestRegistrarnUsurios, requestGetMunicipios } from 'api';
+import { Auth } from "context";
+import { withRouter } from "react-router";
 
 const Registrarse = ({setRegistrarse}) => {
+    const [municipios, setMunicipios] = useState([{
+        id:0,
+        name:""
+    },]);
     const { Option } = Select;
+
+    useEffect(() => {
+        requestGetMunicipios(setMunicipios);
+    }, []);
+
     const onFinish = (values) => {
         console.log('Success:', values);
+        values.admin = 0;
+        values.disease = null;
+        values.personal_id = parseInt(values.personal_id);
+        requestRegistrarnUsurios(values);
         setRegistrarse(false);
     };
+
 
     const styleRow = {background: "rgb(28,7,100)",
             background: "linear-gradient(25deg, rgba(28,7,100,1) 57%, rgba(255,255,255,1) 100%)", borderRadius: "12px"};
@@ -43,35 +60,35 @@ const Registrarse = ({setRegistrarse}) => {
                             {/*  Grupo 1 (nombre,apellido,correo,telefonios) */}
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Nombre</span>}
-                                    name="nombre"
+                                    name="name"
                                     rules={[{ required: true, message: 'Es necesario el Nombre!' }]}
                                 >
                                     <Input placeholder="Nombre"/>
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Apellido</span>}
-                                    name="apellido"
+                                    name="lastname"
                                     rules={[{ required: true, message: 'Es necesario el Apellido!' }]}
                                 >
                                     <Input placeholder="Apellido"/>
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Correo Electronico</span>}
-                                    name="correo_electronico"
+                                    name="email"
                                     rules={[{ required: true, message: 'Es necesario el Correo Electronico!' }]}
                                 >
                                     <Input placeholder="Correo Electronico"/>
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Telefono Celular</span>}
-                                    name="telefonoCelular"
+                                    name="phone_home"
                                     rules={[{ required: true, message: 'Es necesario el Telefono Celular!' }]}
                                 >
                                     <Input placeholder="Telefono Celular"/>
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Telefono Fijo</span>}
-                                    name="telefonoFijo"
+                                    name="phone_mobile"
                                 >
                                     <Input placeholder="Telefono Fijo"/>
                                 </Form.Item>
@@ -79,12 +96,12 @@ const Registrarse = ({setRegistrarse}) => {
                                 <Divider />
                             {/*  Grupo 2 (mayor de edad y cedula) */}
 
-                                <Form.Item name="menorEdad" valuePropName="checked" >
+                                <Form.Item name="under_age" valuePropName="checked" >
                                     <Checkbox>¿Eres menor de edad?</Checkbox>
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Cedula de identidad</span>}
-                                    name="cedula"
+                                    name="personal_id"
                                     rules={[{ required: true, message: 'Es necesario el Cedula!' }]}
                                 >
                                     <Input placeholder="Cedula"/>
@@ -92,7 +109,7 @@ const Registrarse = ({setRegistrarse}) => {
                           
                                 <Divider />
                             {/*  Grupo 3 (Municipio,localidad,direccion) */}                               
-                                <Form.Item name="municipio" 
+                                <Form.Item name="township_id" 
                                     label={<span><MailOutlined />{" "}Municipio</span>} 
                                     rules={[{ required: true, message: 'Es necesario el Municipio!'  }]}
                                 >
@@ -100,21 +117,21 @@ const Registrarse = ({setRegistrarse}) => {
                                         placeholder="Select a option the Municipio"
                                         allowClear
                                     >
-                                        <Option value="male">male</Option>
-                                        <Option value="female">female</Option>
-                                        <Option value="other">other</Option>
+                                        {municipios.map((e) => (
+                                            <Option value={e.id} key={e.id}>{e.name}</Option>
+                                        ))}
                                     </Select>
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Localidad</span>}
-                                    name="localidad"
+                                    name="address_1"
                                     rules={[{ required: true, message: 'Es necesario el Localidad!' }]}
                                 >
                                     <Input placeholder="Localidad"/>
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><MailOutlined />{" "}Direccion</span>}
-                                    name="direccion"
+                                    name="address_2"
                                     rules={[{ required: true, message: 'Es necesario el Direccion!' }]}
                                 >
                                     <Input placeholder="Direccion"/>
@@ -132,7 +149,7 @@ const Registrarse = ({setRegistrarse}) => {
                                 </Form.Item>
                                 <Form.Item
                                     label={<span><LockOutlined />{" "}Repita su Contraseñas</span>}
-                                    name="passwordRep"
+                                    name="password_confirmation"
                                     rules={[{ required: true, message: 'Es necesaria la Contraseñas!' }]}
                                 >
                                     <Input.Password />
@@ -153,9 +170,10 @@ const Registrarse = ({setRegistrarse}) => {
 
 const Logear = (props) => {
     const onFinish = (values) => {
-        console.log('Success:', JSON.stringify(values));
-        console.log('Success:', values);
+        //const data = requestLoginUsurios(values);
         props.setRegisDatosSalud(true);
+        props.setUsuario(values);
+        
     };
 
     return(
@@ -173,7 +191,7 @@ const Logear = (props) => {
                         >
                             <Form.Item
                                 label={<span><MailOutlined />{" "}Correo Electronico</span>}
-                                name="correo_electronico"
+                                name="email"
                                 rules={[{ required: true, message: 'Es necesario el Correo Electronico!' }]}
                             >
                                 <Input placeholder="Correo Electronico"/>
@@ -212,19 +230,31 @@ const Logear = (props) => {
     );
 }
 
-const Login = () => {
+const Login = (props) => {
     const [registrarse, setRegistrarse] = useState(false);
     const [regisDatosSalud, setRegisDatosSalud] = useState(false);
 
+    const { usuario } = useContext(Auth);
+
+    useEffect(() => {
+        if (usuario) {
+            if (usuario.message !== "Error. Usuario y/o contraseña equivocados") {
+                setRegisDatosSalud(true);
+            }else{
+                props.history.push('/');
+            }
+        }
+    }, []);
+    
     // si regisDatosSalud muestra el form de datos de la salud de la persona
     // si registrarse muestra en form de registro y si no el de inicio
 return(
     <Container>
         {regisDatosSalud?<DatosSaludActual/>
         :registrarse?<Registrarse setRegistrarse={setRegistrarse}/>
-            :<Logear setRegistrarse={setRegistrarse} setRegisDatosSalud={setRegisDatosSalud}/>}
+            :<Logear setRegistrarse={setRegistrarse} setRegisDatosSalud={setRegisDatosSalud} setUsuario={props.setUsuario}/>}
     </Container>
 );
 }
 
-export default Login;
+export default withRouter(Login);

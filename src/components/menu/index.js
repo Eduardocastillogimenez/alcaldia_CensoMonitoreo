@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import { AppstoreOutlined, MailOutlined, BellOutlined, ExceptionOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Menu, Row, Col, Badge, Modal, Card } from 'antd';
-import {Container,Nav} from './styles'
+import {Container,Nav} from './styles';
+
+import { Auth } from "context";
+import { requestNotificaciones, requestNotificacionesVista } from 'api';
+
+import { withRouter } from "react-router";
 
 const items = [
   {
@@ -45,10 +50,10 @@ const dataAPI = [
   },
 ];
 
-const App = (props) => {
-  const [current, setCurrent] = useState('mail');
+const Menuu = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
+  const [notificacion, setNotificacion] = useState([]);
   const [elementoNotificacionVer, setElementoNotificacionVer] = useState({
     id: 0,
     sing: 0,
@@ -56,12 +61,17 @@ const App = (props) => {
     body: '',
   },);
 
-  const onClick = (e) => {
-    setCurrent(e.key);
-  };
+  const { usuario } = useContext(Auth);
+
+  useEffect(() => {
+    if (usuario ) {       
+        requestNotificaciones(setNotificacion,usuario.token,usuario.data.id)
+    }
+  }, [usuario]);
+
 
   const onClickCardModal = (element) => {
-    console.log(element);
+    requestNotificacionesVista(usuario.token,element.id);
     setIsModalVisible(false);
     setIsModalVisible2(true);
     setElementoNotificacionVer(element);
@@ -105,9 +115,9 @@ const App = (props) => {
           <Modal title="Basic Modal" style={{maxWidth: "80vw", overflowY: "auto"}}
             visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
           >
-            {dataAPI.map((element) => (
+            {notificacion.map((element) => (
               <div key={element.id}>
-                <Card title={element.titulo} style={{margin: "15px", backgroundColor:element.sing===0?"none":"#04040428"}} 
+                <Card title={element.title} style={{margin: "15px", backgroundColor:element.sing===0?"none":"#04040428"}} 
                     hoverable={element.sing===0?true:false} onClick={()=>onClickCardModal(element)}
                 >
                   <p>{element.body}</p>
@@ -118,7 +128,7 @@ const App = (props) => {
           </Modal>
           <Nav>
             <a href="/home" style={props?props.home?{color:"#0017c7"}:{}:{}}><BellOutlined />{" "}Noticias </a>
-            <Badge count={5}>
+            <Badge count={notificacion.length}>
               <a onClick={showModal} style={props?props.notificaciones?{color:"#0017c7"}:{}:{}}>
                 <ExceptionOutlined />{" "}Notificaciones
               </a>
@@ -132,4 +142,4 @@ const App = (props) => {
   );
 };
 
-export default App;
+export default withRouter(Menuu);

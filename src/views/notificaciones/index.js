@@ -12,7 +12,7 @@ return(
     <Row justify="space-around"align="middle">
         <Col span={24}>
             <div/>
-            <h1>jdjdjdjj</h1>
+            <h1></h1>
         </Col>
     </Row>
     <Footer/>

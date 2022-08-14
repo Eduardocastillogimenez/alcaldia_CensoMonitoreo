@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ContainerInfo, ContainerPag } from './styles'
 
 import Menu from 'components/menu';
@@ -8,14 +8,33 @@ import Noticia from 'views/noticia';
 import { Row, Col, Pagination, Card, Button } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
-import { Switch, Route, useRouteMatch, } from "react-router-dom";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { withRouter } from "react-router";
 
-const Noticias = () => {
+import { Auth } from "context";
+import { requestNoticias } from 'api';
+
+const Noticias = (props) => {
     const [loading, setLoading] = useState(false);
+    const [length, setLength] = useState(10);
+    const [noticias, setNoticias] = useState([]);
     const { path } = useRouteMatch();
 
+    useEffect(() => {
+        if(!props.usuario){
+            props. history.push('/');
+        }
+        if (props.usuario) {
+            if (props.usuario.message === "Error. Usuario y/o contraseña equivocados") {
+                props.history.push('/');
+            }
+            requestNoticias(setNoticias,props.usuario.token);
+
+        }       
+    }, [props.usuario]);
+
     const onChangePagination = (pageNumber) => {
-        console.log('page:', pageNumber);
+        setLength(10 * pageNumber);
     };
 
 return(
@@ -24,41 +43,29 @@ return(
             <Col span={22}>
                 <ContainerInfo>
                     <h1>Últimas Noticias</h1>
-                    <Card title="La inflación en EEUU perjudica a las remesas que se envían a Latinoamérica"
-                        hoverable loading={loading} style={{margin: "15px"}}
-                    >
-                        <p>Los inmigrantes en EEUU cada vez tienen más difícil mandar remesas a países de Latinoamérica debido a que sus ahorros van menguando a medida que aumentan los precios de la comida y la energía por la inflación, la más alta en el país norteamericano desde 1981.«La inflación en Estados Unidos está mermando la capacidad de gasto de las personas. Es como si la gente se hubiera...</p>
-                        <a href={`${path}/${0}`}>
-                            <Button type="primary">
-                                Ver mas {" "}<ArrowRightOutlined />
-                            </Button>
-                        </a>
-                    </Card>
-                    <Card title="La inflación en EEUU perjudica a las remesas que se envían a Latinoamérica"  
-                        hoverable loading={loading} style={{margin: "15px"}}
-                    >
-                        <p>Los inmigrantes en EEUU cada vez tienen más difícil mandar remesas a países de Latinoamérica debido a que sus ahorros van menguando a medida que aumentan los precios de la comida y la energía por la inflación, la más alta en el país norteamericano desde 1981.«La inflación en Estados Unidos está mermando la capacidad de gasto de las personas. Es como si la gente se hubiera...</p>
-                        <a href={`${path}/${1}`}>
-                            <Button type="primary">
-                                Ver mas {" "}<ArrowRightOutlined />
-                            </Button>
-                        </a>
-                    </Card>
-                    <Card title="La inflación en EEUU perjudica a las remesas que se envían a Latinoamérica"  
-                        hoverable loading={loading} style={{margin: "15px"}}
-                    >
-                        <p>Los inmigrantes en EEUU cada vez tienen más difícil mandar remesas a países de Latinoamérica debido a que sus ahorros van menguando a medida que aumentan los precios de la comida y la energía por la inflación, la más alta en el país norteamericano desde 1981.«La inflación en Estados Unidos está mermando la capacidad de gasto de las personas. Es como si la gente se hubiera...</p>
-                        <a href={`${path}/${2}`}>
-                            <Button type="primary">
-                                Ver mas {" "}<ArrowRightOutlined />
-                            </Button>
-                        </a>
-                    </Card>
+                    {noticias.map((e,i) => {
+                        if(i<length && i>length-11){
+
+                        return(
+                        <Card title={e.title}
+                            hoverable loading={loading} style={{margin: "15px"}} key={e.id}
+                        >
+                            <p>{e.abstract}</p>
+                            <a href={`${path}/${e.id}`}>
+                                <Button type="primary">
+                                    Ver mas {" "}<ArrowRightOutlined />
+                                </Button>
+                            </a>
+                        </Card>)
+                        }else{
+                            return ""
+                        }
+                    })}
                 </ContainerInfo>
             </Col>
             <Col span={22}>
                 <ContainerPag>
-                    <Pagination defaultCurrent={1} total={30} onChange={onChangePagination}/>
+                    <Pagination defaultCurrent={1} total={noticias.length+1} onChange={onChangePagination}/>
                 </ContainerPag>
             </Col>
         </Row>
@@ -66,17 +73,19 @@ return(
 );
 }
 
-const Home = () => {
+const Home = ({history}) => {
     const { path } = useRouteMatch();
+    const { usuario } = useContext(Auth);
+
 return(
     <>
         <Menu home/>
             <Switch>
                 <Route exact path={path}>
-                    <Noticias/>
+                    <Noticias history={history} usuario={usuario}/>
                 </Route>
                 <Route path={`${path}/:id`}>
-                    <Noticia />
+                    <Noticia usuario={usuario}/>
                 </Route>
             </Switch>
         <Footer/>
@@ -84,4 +93,4 @@ return(
 );
 }
 
-export default Home;
+export default withRouter(Home);
