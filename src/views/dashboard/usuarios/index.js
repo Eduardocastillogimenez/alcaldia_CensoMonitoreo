@@ -196,11 +196,6 @@ const Usuarios = () => {
                                     </SpanDatos>
                                 </div>
                             </Col>
-                            <Col span={24} style={{textAlign:"end"}}>
-                                <Popover content={content} title="Opciones especiales" placement="topRight">
-                                    <Button type="primary">Opciones especiales</Button>
-                                </Popover>
-                            </Col>
                         </Row>  
                     </Container>}
         </>
