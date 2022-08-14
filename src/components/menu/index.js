@@ -119,8 +119,8 @@ const Menuu = (props) => {
           >
             {notificacion.map((element) => (
               <div key={element.id}>
-                <Card title={element.title} style={{margin: "15px", backgroundColor:!element.seen?"none":"#04040428"}} 
-                    hoverable={!element.seen?true:false} onClick={()=>onClickCardModal(element)}
+                <Card title={element.title} style={{margin: "15px", backgroundColor:element.seen?"none":"#04040428"}} 
+                    hoverable={element.seen?true:false} onClick={()=>onClickCardModal(element)}
                 >
                   <p>{element.body}</p>
                 </Card>
