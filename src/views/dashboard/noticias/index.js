@@ -6,7 +6,7 @@ import { Table, Button, Modal, Form, Input } from 'antd';
 import { UserOutlined, EditOutlined, SolutionOutlined} from '@ant-design/icons';
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 
-import { requestNoticias  } from 'api';
+import { requestNoticias,requestCrearNoticias  } from 'api';
 
 const dataAPI = [
     {
@@ -80,19 +80,17 @@ const Noticias = () => {
 
     const { TextArea } = Input;
     const { path } = useRouteMatch();
-    const [Notificacion, setNotificacion] = useState(false);
+    const [notificacion, setNotificacion] = useState([]);
 
     const  usuario  = JSON.parse(localStorage.getItem('usuario'));
 
     useEffect(() => {
-      if (usuario ) {       
-        requestNoticias(setNotificacion,usuario.token,usuario.data.id)
-      }
+      if (usuario) {       
+        requestNoticias(setNotificacion,usuario.token);
+      };
     }, [usuario]);
 
-    console.log(Notificacion)
-
-    const infoTablaVar = infoTabla(Notificacion[0]?Notificacion:[], path);
+    const infoTablaVar = infoTabla(notificacion[0]?notificacion:[], path);
 
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
@@ -106,7 +104,8 @@ const Noticias = () => {
 
     const handleOk = (value) => {
         if(value){
-
+            alert(value);
+            requestCrearNoticias(usuario.token,value);
         };
         setIsModalVisible(false);
     };
@@ -119,6 +118,7 @@ const Noticias = () => {
         <ContainerNoticias>
             <Switch>
                 <Route exact path={path}>
+                
                     <Button type="primary" onClick={showModal}>
                         Crear Noticia
                     </Button>
@@ -132,7 +132,7 @@ const Noticias = () => {
                         >
                             <Form.Item
                                 label={<span><EditOutlined />{" "}Titulo</span>}
-                                name="titulo"
+                                name="title"
                                 rules={[{ required: true, message: 'Es necesario el Titulo!' }]}
                             >
                                 <Input placeholder="Titulo"/>
@@ -148,7 +148,7 @@ const Noticias = () => {
 
                             <Form.Item >
                                 <Button type="primary" htmlType="submit">
-                                    Ingresa Ahora
+                                    enviar
                                 </Button>
                             </Form.Item>
                         </Form>

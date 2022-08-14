@@ -119,6 +119,23 @@ export const requestNoticias = (setData,token) => {
         .then( dataa => setData(dataa.data));
 }
 
+export const requestCrearNoticias = (token,data) => {
+    
+    const options = {
+        method: 'POST',       
+        headers: { 
+            'Content-Type': 'application/json', 
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+        
+    };
+    
+    fetch('https://api-salud-san-cristobal.herokuapp.com/api/news', options)
+        .then(response => response.json())
+}
+
 export const requestNoticia = (setData,token,id) => {
     
     const options = {
