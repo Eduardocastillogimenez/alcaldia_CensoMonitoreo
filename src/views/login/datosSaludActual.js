@@ -18,14 +18,19 @@ const DatosSaludActual = ({history}) => {
         if(!usuario){
             history.push('/');
         }else{
-            if (usuario.data) {
-                if (usuario.data.admin) {
-                    history.push('/dashboard');
-                }else{
-                    if (usuario.data.symptoms[0]) {
-                        history.push('/home');
+            if(usuario.ok){ 
+                if (usuario.data) {
+                    if (usuario.data.admin) {
+                        history.push('/dashboard');
+                    }else{
+                        console.log(usuario.data);
+                        if (usuario.data.symptoms[0]) {
+                            history.push('/home');
+                        }
                     }
                 }
+            }else{
+                history.push('/');
             }
         }     
     }, []);

@@ -78,7 +78,7 @@ const Menuu = (props) => {
 
 
   const onClickCardModal = (element) => {
-    requestNotificacionesVista(usuario.token,element.id);
+    requestNotificacionesVista(usuarioo.token,element.id);
     setIsModalVisible(false);
     setIsModalVisible2(true);
     setElementoNotificacionVer(element);

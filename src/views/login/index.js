@@ -171,7 +171,7 @@ const Registrarse = ({setRegistrarse}) => {
 const Logear = (props) => {
     const onFinish = (values) => {
         //const data = requestLoginUsurios(values);
-        props.setRegisDatosSalud(true);
+        console.log("hola");
         props.setUsuario(values);
         
     };
@@ -237,11 +237,14 @@ const Login = (props) => {
     const  usuario  = JSON.parse(localStorage.getItem('usuario'));
 
     useEffect(() => {
+        console.log(usuario)
         if (usuario) {
-            if (usuario.message !== "Error. Usuario y/o contraseña equivocados") {
+            if (usuario.ok) {
                 setRegisDatosSalud(true);
             }else{
+                localStorage.clear();
                 props.history.push('/');
+                window.location.reload();
             }
         }
     }, []);
@@ -252,7 +255,7 @@ return(
     <Container>
         {regisDatosSalud?<DatosSaludActual/>
         :registrarse?<Registrarse setRegistrarse={setRegistrarse}/>
-            :<Logear setRegistrarse={setRegistrarse} setRegisDatosSalud={setRegisDatosSalud} setUsuario={props.setUsuario}/>}
+            :<Logear setRegistrarse={setRegistrarse} setUsuario={props.setUsuario}/>}
     </Container>
 );
 }

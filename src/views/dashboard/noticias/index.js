@@ -122,7 +122,7 @@ const Noticias = () => {
                     <Button type="primary" onClick={showModal}>
                         Crear Noticia
                     </Button>
-                    <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                    <Modal title="Noticias" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                         <Form 
                             name="basic"
                             layout="vertical"
