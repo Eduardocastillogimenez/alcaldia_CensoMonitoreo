@@ -86,7 +86,7 @@ const Noticias = () => {
     const  usuario  = JSON.parse(localStorage.getItem('usuario'));
 
     useEffect(() => {
-      if (usuario) {       
+      if (usuario && !notificacion[0]) {       
         requestNoticias(setNotificacion,usuario.token);
       };
     }, [usuario]);
