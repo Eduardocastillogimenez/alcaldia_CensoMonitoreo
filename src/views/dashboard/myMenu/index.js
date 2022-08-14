@@ -32,7 +32,7 @@ const MyMenu = (props) => {
         getItem(<a href={`${props.path}/usuarios`}>Usuarios </a>, '1', <AppstoreOutlined />),
         getItem(<a href={`${props.path}/noticias`}>Noticias </a>, '2', <ContainerOutlined />),
         getItem(<a href={`${props.path}/crearNotificacion`}>CrearNotificacion </a>, '3', <ContainerOutlined />),      
-        getItem(<a href={`/`} onClick={()=>localStorage.removeItem('usuario')}>Cerrar sesion </a>, '4', <LogoutOutlined  />),
+        getItem(<a href={`/`} onClick={()=>localStorage.clear()}>Cerrar sesion </a>, '4', <LogoutOutlined  />),
     ];
 
     const toggleCollapsed = () => {
